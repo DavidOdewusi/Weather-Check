@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Check</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 62.5%;
+        font-family: system-ui;
+      }
+
+      body {
+        color: #000;
+        background-image: url(./img/clear.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-size: 1.6rem;
+        transition: background-image 2s ease-in-out;
+      }
+
+      @keyframes slideleft {
+        0% {
+          transform: translateX(100%);
+        }
+
+        100% {
+          transform: translate(0);
+        }
+      }
+
+      .container {
+        width: 90%;
+        margin: 0 auto;
+        padding: 3rem 0;
+      }
+
+      .page-top {
+        margin-bottom: 5rem;
+      }
+
+      .page-top,
+      .search-menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .quote {
+        display: grid;
+        grid-template-columns: repeat(3, 33.33%);
+        overflow: hidden;
+      }
+
+      .visible {
+        display: block;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .block-1,
+      .block-2,
+      .block-3 {
+        font-style: italic;
+        animation: slideleft 0.7s ease-in-out;
+      }
+
+      .block-1 {
+        grid-column: 1/4;
+      }
+
+      .block-2 {
+        grid-column: 1/4;
+      }
+
+      .block-3 {
+        grid-column: 1/4;
+      }
+
+      cite {
+        display: block;
+        margin-top: 1rem;
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      .quote,
+      .search-menu {
+        width: 30%;
+      }
+
+      .search-box {
+        position: relative;
+        width: 70%;
+      }
+
+      .search-input {
+        border: 2px solid #000;
+        color: inherit;
+        padding: 1.2rem;
+        border-radius: 5rem;
+        font-weight: 300;
+        width: 100%;
+        background-color: transparent;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .search-input:focus {
+        outline: none;
+        transform: scale(1.04);
+      }
+
+      .search-input::placeholder {
+        color: inherit;
+      }
+
+      .search-btn {
+        background-color: transparent;
+        border: none;
+        color: inherit;
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+      }
+
+      .search-btn ion-icon {
+        font-size: 2rem;
+      }
+
+      .hambuger {
+        position: relative;
+        background-color: #000;
+      }
+
+      .hambuger,
+      .hambuger::before,
+      .hambuger::after {
+        width: 3rem;
+        height: 0.3rem;
+      }
+
+      .hambuger::before,
+      .hambuger::after {
+        content: "";
+        background-color: inherit;
+        display: block;
+        position: absolute;
+      }
+
+      .hambuger::before {
+        top: -0.6rem;
+      }
+
+      .hambuger::after {
+        top: 0.6rem;
+      }
+
+      .weather-info {
+        width: 40%;
+        margin: 0 auto 3.5rem;
+        text-align: center;
+      }
+
+      .weather-info h3 {
+        font-size: 3rem;
+        font-weight: 400;
+        width: 40%;
+      }
+
+      .temp {
+        font-size: 10rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+      }
+
+      .weather-info h3,
+      .city-time {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .icon-moon {
+        margin-right: 0.5rem;
+      }
+
+      .city {
+        margin-right: 1.5rem;
+      }
+
+      .city-time {
+        font-size: 2.5rem;
+        font-weight: 500;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .city-time span {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .weather-state {
+        width: 65%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+      }
+
+      .card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 2rem;
+        /* flex-basis: 100%; */
+        padding: 1.5rem 4rem;
+        border: 2px solid #000000b3;
+      }
+
+      .card ion-icon {
+        font-size: 4rem;
+      }
+
+      .card p {
+        font-size: 2rem;
+      }
+
+      .current-state {
+        background-color: #7b7b7b86;
+        transform: scale(1.1);
+        transition: all 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-top">
+        <div class="quote">
+          <blockquote class="block-1 visible">
+            "At the end of the day, whether or not those people are comfortable
+            with how you’re living your life doesn’t matter. What matters is
+            whether you’re comfortable with it."
+            <cite>Dr Phill</cite>
+          </blockquote>
+          <blockquote class="block-2 hidden">
+            "If you make your internal life a priority, then everything else you
+            need on the outside will be given to you and it will be extremely
+            clear what the next step is."
+            <cite>Gabrielle Bernstein</cite>
+          </blockquote>
+          <blockquote class="block-3 hidden">
+            "I am experienced enough to do this. I am knowledgeable enough to do
+            this. I am prepared enough to do this. I am mature enough to do
+            this. I am brave enough to do this."
+            <cite>Alexandria Ocasio-Cortez</cite>
+          </blockquote>
+        </div>
+        <div class="search-menu">
+          <div class="search-box">
+            <input
+              type="text"
+              id="search"
+              placeholder="Search your city"
+              class="search-input"
+            />
+            <button class="search-btn">
+              <ion-icon name="search" class="search-icon"></ion-icon>
+            </button>
+          </div>
+          <div class="hambuger"></div>
+        </div>
+      </div>
+      <div class="weather-info">
+        <h3>
+          <ion-icon name="moon" class="icon-moon"></ion-icon> Good Evening
+        </h3>
+        <p class="temp">
+          18<sup><sup>o</sup>C</sup>
+        </p>
+        <div class="city-time">
+          <p class="city">In London, UK</p>
+          <p class="time">23:14<span>BST</span></p>
+        </div>
+      </div>
+      <div class="weather-state">
+        <div class="card Clear">
+          <ion-icon name="sunny"></ion-icon>
+          <p>Clear</p>
+          <p class="temp-small">-- --</p>
+        </div>
+        <div class="card Clouds">
+          <ion-icon name="cloudy"></ion-icon>
+          <p>Cloudy</p>
+          <p class="temp-small">-- --</p>
+        </div>
+        <div class="card Rain Drizzle Thunderstorm">
+          <ion-icon name="rainy"></ion-icon>
+          <p>Rainy</p>
+          <p class="temp-small">-- --</p>
+        </div>
+        <div class="card Snow">
+          <ion-icon name="snow"></ion-icon>
+          <p>Snowy</p>
+          <p class="temp-small">-- --</p>
+        </div>
+      </div>
+    </div>
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
