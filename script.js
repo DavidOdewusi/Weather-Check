@@ -1,3 +1,4 @@
+"use strict";
 //////////////////////////////////////////////////////////////
 // Quote Slide//
 //////////////////////////////////////////////////////////////
@@ -26,9 +27,9 @@ setInterval(() => {
 }, 9000);
 //////////////////////////////////////////////////////////////
 
+const greet = document.querySelector("h3");
 const btn = document.querySelector(".search-btn");
 const search = document.querySelector(".search-input");
-const greetings = document.querySelector(".weather-info h3");
 const temp = document.querySelector(".temp");
 const city = document.querySelector(".city");
 const time = document.querySelector(".time");
@@ -45,6 +46,28 @@ function changeTheme(img, clr) {
   search.style.borderColor = `${clr}`;
   hamburger.style.backgroundColor = `${clr}`;
 }
+
+function greeting() {
+  const greetIcon = greet.children[0].attributes.name.nodeValue;
+  const dateStr = String(new Date());
+  const date = new Date();
+  const dateArr = dateStr.split(" ");
+  const timeArr = dateArr[4].split(":");
+  const timezone = dateArr[5].split("+");
+  const currentTime = `${timeArr[0]}:${timeArr[1]}`;
+  time.innerHTML = `${currentTime}<span>${timezone[0]}</span>`;
+
+  if (date.getHours() < 12) {
+    greet.innerHTML = `<ion-icon name="sunny" class="icon-greet"></ion-icon> Good Morning`;
+  } else if (date.getHours() >= 12 && date.getHours() <= 17) {
+    greet.innerHTML = `<ion-icon name="sunny" class="icon-greet"></ion-icon> Good Afternoon`;
+  } else if (date.getHours() >= 18 && date.getHours() <= 20) {
+    greet.innerHTML = `<ion-icon name="sunny" class="icon-greet"></ion-icon> Good Evening`;
+  } else if (date.getHours() >= 21 && date.getHours() <= 23) {
+    greet.innerHTML = `<ion-icon name="sunny" class="icon-greet"></ion-icon> Good Night`;
+  }
+}
+setInterval(() => greeting(), 10000);
 
 btn.addEventListener("click", () => {
   fetch(
@@ -64,15 +87,15 @@ btn.addEventListener("click", () => {
         data.main.temp
       )}        <sup><sup>o</sup>C</sup>`;
 
-      fetch(
-        `https://api.xmltime.com/timeservice?placeid=${data.sys.id}&version=3&out=json&prettyprint=1&accesskey=8QTuc4iipk`
-      )
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          console.log(data);
-        });
+      // fetch(
+      //   `https://api.xmltime.com/timeservice?placeid=${data.sys.id}&version=3&out=json&prettyprint=1&accesskey=8QTuc4iipk`
+      // )
+      //   .then((res) => {
+      //     return res.json();
+      //   })
+      //   .then((data) => {
+      //     console.log(data);
+      //   });
 
       if (data.weather[0].main === "Clouds") {
         changeTheme("cloud", "#000");
