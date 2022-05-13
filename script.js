@@ -48,7 +48,6 @@ function changeTheme(img, clr) {
 }
 
 function greeting() {
-  const greetIcon = greet.children[0].attributes.name.nodeValue;
   const dateStr = String(new Date());
   const date = new Date();
   const dateArr = dateStr.split(" ");
@@ -62,19 +61,16 @@ function greeting() {
   } else if (date.getHours() >= 12 && date.getHours() <= 17) {
     greet.innerHTML = `<ion-icon name="sunny" class="icon-greet"></ion-icon> Good Afternoon`;
   } else if (date.getHours() >= 18 && date.getHours() <= 20) {
-    greet.innerHTML = `<ion-icon name="sunny" class="icon-greet"></ion-icon> Good Evening`;
+    greet.innerHTML = `<ion-icon name="moon" class="icon-greet"></ion-icon> Good Evening`;
   } else if (date.getHours() >= 21 && date.getHours() <= 23) {
-    greet.innerHTML = `<ion-icon name="sunny" class="icon-greet"></ion-icon> Good Night`;
+    greet.innerHTML = `<ion-icon name="moon" class="icon-greet"></ion-icon> Good Night`;
   }
 }
 setInterval(() => greeting(), 10000);
 
-btn.addEventListener("click", () => {
+function fetchWeather() {
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${search.value}&appid=da9780327e3b9e6ebcce68fe3679e6c5&units=metric`
-    // Headers{
-    //   origin
-    // }
   )
     .then((res) => {
       return res.json();
@@ -127,4 +123,12 @@ btn.addEventListener("click", () => {
     });
 
   search.value = "";
+}
+
+btn.addEventListener("click", fetchWeather);
+search.addEventListener("keydown", (e) => {
+  console.log(`key ${e.key} was pressed`);
+  if (e.key === "Enter") {
+    fetchWeather();
+  }
 });
